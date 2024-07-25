@@ -27,9 +27,10 @@ const dummyTodos = [
 
 function App() {
   const [todos, setTodos] = useState(dummyTodos);
-  const [filter, setFilter] = useState('');
+  const [filter, setFilter] = useState('All');
+  //console.log(filter);
 
-  const getFilter = (category) => setFilter(category);
+  // const getFilter = (category) => setFilter(category);
   // const [modalIsOpen, setIsOpen] = useState(false);
 
   // function openModal() {
@@ -75,6 +76,11 @@ function App() {
     setTodos(deletedTodos);
   }
   
+  // const filterTodos = () => selectedCategory === 'ALL' ?
+  //                           todos : todos.filter(todo => todo.category === filter);
+  // const filteredTodos = filterTodos();
+  
+
   return (
     <>
       <DefaultLayout>
@@ -86,7 +92,7 @@ function App() {
           </div>
         </header>
         <section className="max-w-xl m-4 mx-auto">
-          <TodoHeader onAdd={addTodoHandler} getFilter={getFilter} />
+          <TodoHeader onAdd={addTodoHandler} onFilter={setFilter} />
           <TodoBody todos={todos} onUpdate={updateTodoHandler} onDelete={deleteTodoHandler} filter={filter} />
           {/* {modalIsOpen && 
           <Modal

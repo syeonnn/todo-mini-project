@@ -11,11 +11,6 @@ const TodoItem = ({ item, onUpdate, onDelete }) => {
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
 
-  useEffect(()=>{
-    console.log(IsOpen);
-    console.log(item);
-  },[IsOpen])
-
   return (
     <li className="flex gap-4 justify-between my-4 py-4 px-4 border-[1px] bg-gray-700 rounded-md shadow-xl">
         <div>

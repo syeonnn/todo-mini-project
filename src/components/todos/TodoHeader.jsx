@@ -26,7 +26,7 @@ const dummyTodos = [
 ]
 
 // 함수형 컴포넌트(TodoHeader)
-const TodoHeader = ({ onAdd,getFilter }) => {
+const TodoHeader = ({ onAdd, onFilter }) => {
   const [IsOpen, setIsOpen] = useState(false);
 
   const openModal = () => setIsOpen(true);
@@ -43,7 +43,7 @@ const TodoHeader = ({ onAdd,getFilter }) => {
         New Todo
       </TodoForm>
     </Modal>, document.body)}
-    <TodoFilter handleChangeSelect={(filter) => getFilter(filter)} />
+    <TodoFilter handleChangeSelect={onFilter} />
   </div> 
 )
 }
