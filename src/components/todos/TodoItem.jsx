@@ -1,15 +1,26 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import IconButton from '@/components/ui/IconButton'
 import { TODO_CATEGORY_ICON } from '@/constants/icon'
 import Modal from '@/components/ui/Modal';
 import TodoForm from './TodoForm';
 import { createPortal } from 'react-dom';
+import { TodoDispatchContext} from '@/contexts/TodoContext';
 
-const TodoItem = ({ item, onUpdate, onDelete }) => {
+const TodoItem = ({ item }) => {
+  const dispatch = useContext(TodoDispatchContext);
   const [IsOpen, setIsOpen] = useState(false);
 
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
+
+  const UpdateHandler = () => {
+    dispatch({ type: "UPDATE", newTodo: item })
+    openModal()
+    
+  }
+  const DeleteHandler = () => {
+    dispatch({ type: "DELETE", newTodo: item })
+  }
 
   return (
     <li className="flex gap-4 justify-between my-4 py-4 px-4 border-[1px] bg-gray-700 rounded-md shadow-xl">
@@ -21,11 +32,11 @@ const TodoItem = ({ item, onUpdate, onDelete }) => {
             </div>
         </div>
         <div className="flex items-center gap-1">
-            <IconButton icon={'✏️'} clickHandler={openModal} />
-            <IconButton  textColor='text-red-300' icon={'🗑'} clickHandler={()=>onDelete(item)} />
+            <IconButton icon={'✏️'} clickHandler={UpdateHandler} />
+            <IconButton  textColor='text-red-300' icon={'🗑'} clickHandler={DeleteHandler} />
         </div>
         {IsOpen && createPortal( <Modal closeModal={closeModal}>
-          <TodoForm item={item} onUpdate={onUpdate} closeModal={closeModal} openFor={'update'}>
+          <TodoForm item={item} closeModal={closeModal} openFor={'update'}>
           Update Todo
           </TodoForm>
         </Modal>, document.body)}

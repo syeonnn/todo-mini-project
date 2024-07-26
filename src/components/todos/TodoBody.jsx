@@ -1,23 +1,22 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import TodoItem from './TodoItem';
+import { TodoContext, TodoDispatchContext} from '@/contexts/TodoContext';
 
-const TodoBody = ({ todos, onUpdate, onDelete, filter }) => {
-  // const [filteredTodos, setFilteredTodos] = useState('');
+const TodoBody = () => {
+  const { todos, category, setFilter } = useContext(TodoContext);
+  // dispatch는 useEffect로 감싸기  추천함
+  const dispatch = useContext(TodoDispatchContext);
+  console.log("todos in TOdoBody", todos);
 
-  // if (filter !== 'All')
-  //   {setFilteredTodos(todos);}
-  // else{
-  //   setFilteredTodos(todos.filter(todo => todo.category === filter));
-  // }
+  useEffect(()=>console.log("렌더링...TodoBody... todos",todos ), [todos])
 
   return (
     <>
       <ul className='px-0 my-8'>
-        {/* li 태그를 todos 배열의 요소만큼 렌더링 */}
         {
-          filter === 'All' ?
-          todos.map(todo => <TodoItem key={todo.id} item={todo} onUpdate={onUpdate} onDelete={onDelete}>{todo}</TodoItem>)
-          : todos.filter(todo => todo.category === filter).map(todo => <TodoItem key={todo.id} item={todo} onUpdate={onUpdate} onDelete={onDelete}>{todo}</TodoItem>)
+          category === 'All' ?
+          todos.map(todo => <TodoItem item={todo} key={todo.id}>{todo}</TodoItem>)
+          : todos.filter(todo => todo.category === category).map(todo => <TodoItem item={todo} key={todo.id}>{todo}</TodoItem>)
         }
       </ul>
     </>

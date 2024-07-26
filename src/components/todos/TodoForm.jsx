@@ -1,7 +1,10 @@
-import React, {useState, useEffect, Children} from 'react'
-import { TODO_CATEGORY_ICON } from '@/constants/icon'
+import React, {useState, useEffect, useContext} from 'react';
+import { TODO_CATEGORY_ICON } from '@/constants/icon';
+import { TodoContext, TodoDispatchContext} from '@/contexts/TodoContext';
 
-const TodoForm = ({ item,children,onAdd,onUpdate,closeModal,openFor }) => {
+const TodoForm = ({ item,closeModal,openFor }) => {
+    const dispatch = useContext(TodoDispatchContext);
+
     const [newItem, setNewItem] = useState({ id: '', title: '', summary: '', category: '' });
    
     const [filled, setFilled] = useState(true);
@@ -16,24 +19,24 @@ const TodoForm = ({ item,children,onAdd,onUpdate,closeModal,openFor }) => {
     // const [category, setCategory] = useState(isNewTodoForm(children) ? '': todo.category);
 
     // 버튼 클릭 핸들러
-    const addOrUpdateTodoHandler = () => {
-        if (isNewTodoForm(children)) {
-            const newTodo = {title, summary, category};
-            onAdd(newTodo);
-        } else {
-            const updateTodo = {
-                id: item.id,
-                title,
-                summary,
-                category
-            }
-        }
-        onUpdate(updateTodo);
-    }
+    // const addOrUpdateTodoHandler = () => {
+    //     if (isNewTodoForm(children)) {
+    //         const newTodo = {title, summary, category};
+    //         addTodoHandler(newTodo);
+    //     } else {
+    //         const updateTodo = {
+    //             id: item.id,
+    //             title,
+    //             summary,
+    //             category
+    //         }
+    //     }
+    //     onUpdate(updateTodo);
+    // }
 
     const btnclickHandler = () => {
         if (filled) {
-            openFor === 'add' ? onAdd(newItem) : onUpdate(newItem);
+            openFor === 'add' ? dispatch({ type: "ADD", newTodo: newItem }) : dispatch({ type: "UPDATE", newTodo: newItem });
             closeModal();
         }
     }
@@ -67,7 +70,7 @@ const TodoForm = ({ item,children,onAdd,onUpdate,closeModal,openFor }) => {
 
     return (
         <>
-            <h3>{children}</h3>
+            {/* <h3>{children}</h3> */}
             <form className='my-2'>
                 <h1 className='block mb-2 text-2xl text-white'>{openFor} Todo</h1>
                 <div>
